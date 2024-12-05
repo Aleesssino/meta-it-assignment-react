@@ -1,5 +1,5 @@
 import MovieCard from "../components/MovieCard";
-import { useSearch } from "../contexts/SearchContext";
+import { useSearch } from "../contexts/useSearch";
 
 export default function Home() {
   const movies = [

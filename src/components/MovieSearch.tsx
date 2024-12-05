@@ -1,5 +1,5 @@
 import { Search } from "lucide-react";
-import { useSearch } from "../contexts/SearchContext";
+import { useSearch } from "../contexts/useSearch";
 
 const MovieSearch: React.FC = () => {
   const { searchQuery, setSearchQuery } = useSearch();
