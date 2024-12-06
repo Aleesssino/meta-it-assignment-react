@@ -1,31 +1,34 @@
 import { Heart } from "lucide-react";
 import { Link } from "react-router-dom";
-// import { FC } from "react";
-
-interface TMovie {
-  id: string;
-  title: string;
-  year: string;
-  posterUrl: string;
-}
+import Movie from "../types/TMovie";
 
 interface MovieCardProps {
-  movie: TMovie;
+  movie: Movie;
 }
 
 const MovieCard: React.FC<MovieCardProps> = ({ movie }) => {
-  const { id, title, year, posterUrl } = movie;
+  const { id, title, release_date, poster_path } = movie;
 
   function onLike() {
     alert("liked");
   }
+
+  // Construct the image URL
+  const imageUrl = poster_path
+    ? `https://image.tmdb.org/t/p/w500${poster_path}`
+    : "";
+
+  // Debugging: Check the image URL
+  console.log(imageUrl); // Log the image URL to see what's being used
 
   return (
     <div className="relative overflow-hidden rounded-sm transition-transform hover:scale-105 group">
       <Link to={`/details/${id}`} className="z-10">
         <div className="aspect-[2/3] w-32 md:w-56 xl:w-[17rem]">
           <img
-            src={posterUrl}
+            src={
+              poster_path ? `https://image.tmdb.org/t/p/w500${poster_path}` : ""
+            }
             alt={`${title} poster`}
             className="h-full w-full object-cover"
             loading="lazy"
@@ -36,7 +39,9 @@ const MovieCard: React.FC<MovieCardProps> = ({ movie }) => {
               <h3 className="text-sm md:text-xl font-bold text-white line-clamp-2">
                 {title}
               </h3>
-              <p className="mt-1 text-sm text-gray-300">{year}</p>
+              <p className="mt-1 text-sm text-gray-300">
+                {release_date.split("-")[0]}
+              </p>
             </div>
           </div>
         </div>
