@@ -2,7 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import MovieCard from "../components/MovieCard";
 import { useSearch } from "../contexts/useSearch";
 import Movie from "../types/TMovie";
-import { fetchAllMovies } from "../service/api/api";
+import { fetchPopularMovies } from "../service/api/api";
 
 export default function Home() {
   const {
@@ -11,11 +11,11 @@ export default function Home() {
     error,
   } = useQuery<Movie[]>({
     queryKey: ["allMovies"],
-    queryFn: fetchAllMovies,
+    queryFn: fetchPopularMovies,
   });
 
   // Debug
-  const ll = fetchAllMovies();
+  const ll = fetchPopularMovies();
   console.log({ movies, isLoading, error, ll });
 
   // const [searchQuery, setSearchQuery] = useState("");
