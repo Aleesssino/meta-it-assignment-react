@@ -1,6 +1,7 @@
 import { Heart } from "lucide-react";
 import { Link } from "react-router-dom";
 import Movie from "../types/TMovie";
+import { useSearch } from "../contexts/useSearch";
 
 interface MovieCardProps {
   movie: Movie;
@@ -8,22 +9,23 @@ interface MovieCardProps {
 
 const MovieCard: React.FC<MovieCardProps> = ({ movie }) => {
   const { id, title, release_date, poster_path } = movie;
+  const { setSearchQuery } = useSearch();
 
   function onLike() {
     alert("liked");
   }
 
-  // Construct the image URL
-  const imageUrl = poster_path
-    ? `https://image.tmdb.org/t/p/w500${poster_path}`
-    : "";
-
-  // Debugging: Check the image URL
-  console.log(imageUrl); // Log the image URL to see what's being used
+  const handleDetailNavigation = () => {
+    setSearchQuery(""); // Clear search query when navigating to details
+  };
 
   return (
     <div className="relative overflow-hidden rounded-sm transition-transform hover:scale-105 group">
-      <Link to={`/details/${id}`} className="z-10">
+      <Link
+        to={`/details/${id}`}
+        onClick={handleDetailNavigation}
+        className="z-10"
+      >
         <div className="aspect-[2/3] w-32 md:w-56 xl:w-[17rem]">
           <img
             src={
