@@ -33,6 +33,11 @@ const MovieSearch: React.FC = () => {
   const handleSearchSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
+    if (!debouncedSearchQuery.trim()) {
+      alert("Please enter a searched movie...");
+      return;
+    }
+
     const cachedMovies: Movie[] | undefined = queryClient.getQueryData([
       "allMovies",
     ]);
