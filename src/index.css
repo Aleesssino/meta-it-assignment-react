@@ -7,3 +7,7 @@
     background: radial-gradient(125% 125% at 50% 10%, #000 40%, #1e90ff 100%);
   }
 }
+
+body::-webkit-scrollbar {
+  display: none;
+}
