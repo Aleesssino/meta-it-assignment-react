@@ -3,9 +3,12 @@ import { NavLink } from "react-router-dom";
 import MovieSearch from "./MovieSearch";
 import { Dice6, Menu, X } from "lucide-react";
 import { useState } from "react";
+import { useSearch } from "../contexts/useSearch";
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+  const { searchQuery } = useSearch(); // Access movies from context
 
   const handleOverlayClick = (e: React.MouseEvent<HTMLDivElement>) => {
     if ((e.target as HTMLDivElement).id === "menu-overlay") {
@@ -13,9 +16,13 @@ const Header = () => {
     }
   };
 
+  if (searchQuery && searchQuery.trim() !== "" && isMenuOpen) {
+    setIsMenuOpen(false);
+  }
+
   return (
     <>
-      <header className="flex justify-between items-center text-slate-50 py-3 px-8 md:px-60 z-50 drop-shadow-md">
+      <header className="flex justify-between items-center text-slate-50 py-3 px-5 md:px-60 z-50 drop-shadow-md sticky top-0 md:bg-[#0c0c0cd5] ">
         <NavLink to="/">
           <img
             src={logo}
@@ -23,11 +30,11 @@ const Header = () => {
             className="w-6 md:w-12 hover:scale-105 transition-all rounded-sm"
           />
         </NavLink>
-        <div>
+        <div className="md:pl-60 pl-7">
           <MovieSearch />
         </div>
         <nav>
-          <ul className=" gap-6 font-semibold text-xl hidden md:flex">
+          <ul className="gap-6 font-semibold text-xl hidden md:flex">
             <li>
               <NavLink
                 to="/favorites"
@@ -66,11 +73,14 @@ const Header = () => {
             </li>
           </ul>
         </nav>
-
-        <Menu
-          className="xl:hidden w-6 h-6"
-          onClick={() => setIsMenuOpen(!isMenuOpen)}
-        />
+        {isMenuOpen ? (
+          <X className=" w-6 h-6" onClick={() => setIsMenuOpen(!isMenuOpen)} />
+        ) : (
+          <Menu
+            className="xl:hidden w-6 h-6"
+            onClick={() => setIsMenuOpen(!isMenuOpen)}
+          />
+        )}
       </header>
 
       {isMenuOpen && (
@@ -79,14 +89,8 @@ const Header = () => {
           onClick={handleOverlayClick}
           className="bg-radial-custom backdrop-blur-sm fixed inset-0  bg-black z-30 flex  justify-center"
         >
-          <button
-            className="absolute top-4 right-4 text-slate-50"
-            onClick={() => setIsMenuOpen(false)}
-          >
-            <X />
-          </button>
-          <nav className="flex flex-col items-center space-y-6 py-4 px-8  md:hidden pt-16">
-            <ul className="text-4xl font-semibold text-slate-50 w-full">
+          <nav className="space-y-6 py-4 px-8  md:hidden pt-16">
+            <ul className="flex flex-col items-center text-4xl font-semibold text-slate-50 w-full ">
               <li>
                 <NavLink
                   to="/favorites"
