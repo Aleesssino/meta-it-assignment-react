@@ -1,13 +1,8 @@
 import { useContext } from "react";
 import { SearchContext } from "./SearchContext";
 
-interface SearchContextProps {
-  searchQuery: string;
-  setSearchQuery: (query: string) => void;
-}
-
 // Custom hook to access the search context
-export const useSearch = (): SearchContextProps => {
+export const useSearch = () => {
   const context = useContext(SearchContext);
 
   if (!context) {
