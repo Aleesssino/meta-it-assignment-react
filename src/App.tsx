@@ -9,10 +9,8 @@ function App() {
   return (
     <QueryClientProvider client={queryClient}>
       <SearchProvider>
-        <div className="relative min-h-screen bg-radial-custom overflow-hidden">
-          {/* <h1 className="text-2xl text-center py-3  text-slate-50">Meta movies</h1> */}
+        <div className="relative min-h-screen bg-radial-custom">
           <Header />
-          {/* all my pages */}
           <Outlet />
         </div>
       </SearchProvider>
