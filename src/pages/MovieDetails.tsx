@@ -1,141 +1,74 @@
 import React from "react";
 import { useParams } from "react-router-dom";
 import { useSearch } from "../contexts/useSearch";
+import MovieGrid from "../components/MovieGrid";
+import { useQuery } from "@tanstack/react-query";
+import { fetchMovieDetails } from "../service/api";
+import Movie from "../types/TMovie";
 
 const MovieDetailsPage: React.FC = () => {
+  const { id } = useParams<{ id: string }>();
   const { searchQuery } = useSearch();
 
-  // dummy data
-  const movies = [
-    {
-      id: "m1",
-      title: "Venom",
-      year: "2003",
-      posterUrl:
-        "https://dokina.timg.cz/2018/04/24/927937-venom-tom-hardy-poster-711x1080.jpg?1587596281.0",
-    },
-    {
-      id: "m2",
-      title: "Inception",
-      year: "2010",
-      posterUrl: "https://m.media-amazon.com/images/I/51N8xrn5OtL._AC_.jpg",
-    },
-    {
-      id: "m3",
-      title: "The Dark Knight",
-      year: "2008",
-      posterUrl:
-        "https://m.media-amazon.com/images/I/81AJdOIEIwL._AC_SY679_.jpg",
-    },
-    {
-      id: "m4",
-      title: "The Matrix",
-      year: "1999",
-      posterUrl:
-        "https://m.media-amazon.com/images/I/51EG732BV3L._AC_SY679_.jpg",
-    },
-    {
-      id: "m5",
-      title: "Interstellar",
-      year: "2014",
-      posterUrl:
-        "https://m.media-amazon.com/images/I/71nxd51G9XL._AC_SL1188_.jpg",
-    },
-    {
-      id: "m6",
-      title: "Avatar",
-      year: "2009",
-      posterUrl:
-        "https://m.media-amazon.com/images/I/61OUGpUfAyL._AC_SY679_.jpg",
-    },
-    {
-      id: "m7",
-      title: "Titanic",
-      year: "1997",
-      posterUrl: "https://m.media-amazon.com/images/I/41mAlL2iD4L._AC_.jpg",
-    },
-    {
-      id: "m8",
-      title: "Jurassic Park",
-      year: "1993",
-      posterUrl:
-        "https://m.media-amazon.com/images/I/61e9w24TkmL._AC_SY679_.jpg",
-    },
-    {
-      id: "m9",
-      title: "The Lion King",
-      year: "1994",
-      posterUrl:
-        "https://m.media-amazon.com/images/I/71r0eKTxrxL._AC_SL1200_.jpg",
-    },
-    {
-      id: "m10",
-      title: "The Avengers",
-      year: "2012",
-      posterUrl:
-        "https://m.media-amazon.com/images/I/71aFzlCW2zL._AC_SY679_.jpg",
-    },
-    {
-      id: "m11",
-      title: "Iron Man",
-      year: "2008",
-      posterUrl:
-        "https://m.media-amazon.com/images/I/81LwQFvXjSL._AC_SY679_.jpg",
-    },
-    {
-      id: "m12",
-      title: "Black Panther",
-      year: "2018",
-      posterUrl: "https://m.media-amazon.com/images/I/51tOd8D8BCL._AC_.jpg",
-    },
-    {
-      id: "m13",
-      title: "Frozen",
-      year: "2013",
-      posterUrl:
-        "https://m.media-amazon.com/images/I/71mqH4HHZ4L._AC_SY679_.jpg",
-    },
-    {
-      id: "m14",
-      title: "Harry Potter and the Sorcerer’s Stone",
-      year: "2001",
-      posterUrl: "https://m.media-amazon.com/images/I/51cHCz1hPGL._AC_.jpg",
-    },
-    {
-      id: "m15",
-      title: "Spider-Man: No Way Home",
-      year: "2021",
-      posterUrl:
-        "https://m.media-amazon.com/images/I/71vKG2iy8PL._AC_SL1000_.jpg",
-    },
-  ];
+  const {
+    data: movie,
+    isLoading,
+    error,
+  } = useQuery<Movie>({
+    queryKey: ["movie", id],
+    queryFn: () => fetchMovieDetails(id!),
+    staleTime: 1000 * 60 * 5,
+  });
 
-  // this should be component
-  const filteredMovies = movies.filter((movie) =>
-    movie.title.toLowerCase().includes(searchQuery.toLowerCase()),
-  );
+  if (isLoading)
+    return (
+      <p className="flex justify-center text-slate-50 text-center pt-14 text-xl">
+        Loading...
+      </p>
+    );
+  if (error)
+    return (
+      <p className="text-slate-50 justify-center text-center">
+        Error loading movies.
+      </p>
+    );
 
-  const { id } = useParams<{ id: string }>();
+  // Conditional rendering based on whether there's a search query
+  if (searchQuery && searchQuery.trim() !== "") {
+    return <MovieGrid />;
+  }
 
-  const movieDetails = {
-    id,
-  };
-
-  return searchQuery && searchQuery.trim() !== "" ? (
-    // Show search results if there's an active query
-    <div className="flex justify-center items-center py-5">
-      <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-5 place-items-center gap-4">
-        {filteredMovies.map((movie) => (
-          <p key={movie.id} className="text-slate-50">
-            {movie.id}
-          </p>
-        ))}
-      </div>
-    </div>
-  ) : (
-    <div className="p-6 flex items-center justify-center">
-      <div className="flex gap-6 text-center text-slate-50">
-        <h1 className="text-3xl font-bold">{movieDetails.id}</h1>
+  // If there's no search query, render the details of the selected movie
+  return (
+    <div className="m-4 flex justify-center text-slate-50">
+      <div className="text-center space-y-12 ">
+        <h1 className="text-3xl font-bold">{movie?.title}</h1>
+        <section className="md:mx-48 flex flex-col md:flex-row">
+          <div className="flex justify-center">
+            <img
+              src={`https://image.tmdb.org/t/p/w500${movie?.poster_path}`}
+              alt={movie?.title}
+              className="w-64 md:w-[510px] "
+            />
+          </div>
+          <div className="text-xl md:mx-2 px-5 w-96">
+            <p>{movie?.overview}</p>
+            <div className="mt-5">
+              <p>
+                <strong>Release Date: </strong>
+                {movie?.release_date}
+              </p>
+              <p>
+                <strong>Rating: </strong>
+                {movie?.vote_average} / 10
+              </p>
+              <p>
+                <strong>Votes: </strong>
+                {movie?.vote_count}
+              </p>
+            </div>
+          </div>
+        </section>
       </div>
     </div>
   );
