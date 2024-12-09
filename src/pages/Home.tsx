@@ -14,6 +14,7 @@ export default function Home() {
   } = useQuery<Movie[]>({
     queryKey: ["allMovies"],
     queryFn: fetchPopularMovies,
+    staleTime: 1000 * 60 * 5,
   });
 
   if (movies.length > 0) {
@@ -35,7 +36,9 @@ export default function Home() {
 
   return (
     <div>
-      <h1 className="text-2xl text-center py-3 text-slate-50">Meta Movies</h1>
+      <h1 className="text-3xl text-center py-3 text-slate-50 font-semibold">
+        Meta Movies
+      </h1>
       <MovieGrid />
     </div>
   );
