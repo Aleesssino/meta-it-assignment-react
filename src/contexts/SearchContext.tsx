@@ -4,6 +4,8 @@ import Movie from "../types/TMovie";
 interface SearchContextProps {
   searchQuery: string;
   setSearchQuery: (query: string) => void;
+  lastSearchQuery: string;
+  setLastSearchQuery: (query: string) => void;
   movies: Movie[];
   setMovies: (movies: Movie[]) => void;
 }

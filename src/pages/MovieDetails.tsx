@@ -1,5 +1,5 @@
 import React from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useSearch } from "../hooks/useSearch";
 import MovieGrid from "../components/MovieGrid";
 import { useQuery } from "@tanstack/react-query";
@@ -8,7 +8,9 @@ import Movie from "../types/TMovie";
 
 const MovieDetailsPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
-  const { searchQuery } = useSearch();
+  const { searchQuery, setSearchQuery, lastSearchQuery } = useSearch();
+
+  const navigate = useNavigate();
 
   const {
     data: movie,
@@ -33,6 +35,11 @@ const MovieDetailsPage: React.FC = () => {
       </p>
     );
 
+  const handleBackToSearch = () => {
+    setSearchQuery(lastSearchQuery);
+    navigate("/");
+  };
+
   // Conditional rendering based on whether there's a search query
   if (searchQuery && searchQuery.trim() !== "") {
     return <MovieGrid />;
@@ -51,7 +58,7 @@ const MovieDetailsPage: React.FC = () => {
               className="w-64 md:w-[510px] "
             />
           </div>
-          <div className="text-xl md:mx-2 px-5 w-96">
+          <div className="text-xl md:mx-2 px-5 w-96 pt-2 pb-5">
             <p>{movie?.overview}</p>
             <div className="mt-5">
               <p>
@@ -66,6 +73,17 @@ const MovieDetailsPage: React.FC = () => {
                 <strong>Votes: </strong>
                 {movie?.vote_count}
               </p>
+            </div>
+
+            <div className="mt-4">
+              <button
+                onClick={handleBackToSearch}
+                className="text-black font-semibold bg-stone-200 text-xl rounded-lg px-2 cursor-pointer transition-transform hover:scale-105 z-10"
+              >
+                {lastSearchQuery !== ""
+                  ? "Back to search Results"
+                  : "Back to Homepage"}
+              </button>
             </div>
           </div>
         </section>

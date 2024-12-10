@@ -8,7 +8,7 @@ import { useSearch } from "../hooks/useSearch";
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
-  const { searchQuery } = useSearch(); // Access movies from context
+  const { searchQuery, setSearchQuery } = useSearch(); // Access movies from context
 
   const handleOverlayClick = (e: React.MouseEvent<HTMLDivElement>) => {
     if ((e.target as HTMLDivElement).id === "menu-overlay") {
@@ -22,12 +22,13 @@ const Header = () => {
 
   return (
     <>
-      <header className="flex justify-between items-center text-slate-50 py-3 px-5 md:px-60 z-50 drop-shadow-md sticky top-0 md:bg-[#0c0c0cd5] ">
+      <header className="flex justify-between items-center text-slate-50 py-3 px-5 md:px-60 z-50 drop-shadow-md sticky top-0 bg-[#0c0c0cd5] ">
         <NavLink to="/">
           <img
             src={logo}
             alt="meta_movie_logo"
             className="w-6 md:w-12 hover:scale-105 transition-all rounded-sm"
+            onClick={() => setSearchQuery("")}
           />
         </NavLink>
         <div className="md:pl-60 pl-7">
@@ -35,6 +36,19 @@ const Header = () => {
         </div>
         <nav>
           <ul className="gap-6 font-semibold text-xl hidden md:flex">
+            <li>
+              <NavLink
+                to="/"
+                className={({ isActive }) =>
+                  isActive
+                    ? "text-blue-500"
+                    : "text-slate-50 hover:text-sky-300"
+                }
+                onClick={() => setSearchQuery("")}
+              >
+                Home
+              </NavLink>
+            </li>
             <li>
               <NavLink
                 to="/favorites"
@@ -45,18 +59,6 @@ const Header = () => {
                 }
               >
                 Favorites
-              </NavLink>
-            </li>
-            <li>
-              <NavLink
-                to="/popular"
-                className={({ isActive }) =>
-                  isActive
-                    ? "text-blue-500"
-                    : "text-slate-50 hover:text-sky-300"
-                }
-              >
-                Popular
               </NavLink>
             </li>
             <li>

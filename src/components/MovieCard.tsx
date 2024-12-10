@@ -10,13 +10,14 @@ interface MovieCardProps {
 
 const MovieCard: React.FC<MovieCardProps> = ({ movie }) => {
   const { id, title, release_date, poster_path } = movie;
-  const { setSearchQuery } = useSearch();
+  const { searchQuery, setSearchQuery, setLastSearchQuery } = useSearch();
 
   const { favorites, toggleFavorite } = useFavorites();
 
   const isFavorite = favorites.some((fav) => fav.id === movie.id);
 
   const handleDetailNavigation = () => {
+    setLastSearchQuery(searchQuery);
     setSearchQuery(""); // Clear search query when navigating to details
   };
 
