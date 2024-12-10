@@ -3,7 +3,7 @@ import { NavLink } from "react-router-dom";
 import MovieSearch from "./MovieSearch";
 import { Dice6, Menu, X } from "lucide-react";
 import { useState } from "react";
-import { useSearch } from "../contexts/useSearch";
+import { useSearch } from "../hooks/useSearch";
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);

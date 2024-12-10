@@ -1,10 +1,10 @@
 import { createBrowserRouter } from "react-router-dom";
 import App from "./App";
 import Home from "./pages/Home";
-import Favorites from "./pages/YourFavorites";
 import Popular from "./pages/Popular";
 import MovieDetails from "./pages/MovieDetails";
 import NotFound from "./pages/NotFound";
+import YourFavorites from "./pages/YourFavorites";
 
 export const router = createBrowserRouter([
   {
@@ -12,7 +12,7 @@ export const router = createBrowserRouter([
     element: <App />,
     children: [
       { path: "", element: <Home /> },
-      { path: "favorites", element: <Favorites /> },
+      { path: "favorites", element: <YourFavorites /> },
       { path: "popular", element: <Popular /> },
       { path: "details/:id", element: <MovieDetails /> },
       { path: "*", element: <NotFound /> },

@@ -1,34 +1,17 @@
-import React, { useState, useEffect } from "react";
 import { Search } from "lucide-react";
-import { useSearch } from "../contexts/useSearch";
+import { useSearch } from "../hooks/useSearch";
 import { useNavigate } from "react-router-dom";
 import Movie from "../types/TMovie";
 import { useQueryClient } from "@tanstack/react-query";
-
-// Debounce hook implementation
-function useDebounce<T>(value: T, delay: number): T {
-  const [debouncedValue, setDebouncedValue] = useState<T>(value);
-
-  useEffect(() => {
-    const handler = setTimeout(() => {
-      setDebouncedValue(value);
-    }, delay);
-
-    return () => {
-      clearTimeout(handler);
-    };
-  }, [value, delay]);
-
-  return debouncedValue;
-}
+import { useDebounce } from "../hooks/useDebounce";
 
 const MovieSearch: React.FC = () => {
   const { searchQuery, setSearchQuery } = useSearch();
   const navigate = useNavigate();
   const queryClient = useQueryClient();
 
-  // Debounce search with 300ms delay
-  const debouncedSearchQuery = useDebounce(searchQuery, 300);
+  // Debounce search with 500ms delay
+  const debouncedSearchQuery = useDebounce(searchQuery, 500);
 
   const handleSearchSubmit = (e: React.FormEvent) => {
     e.preventDefault();

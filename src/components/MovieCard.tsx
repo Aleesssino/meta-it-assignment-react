@@ -1,7 +1,8 @@
 import { Heart } from "lucide-react";
 import { Link } from "react-router-dom";
 import Movie from "../types/TMovie";
-import { useSearch } from "../contexts/useSearch";
+import { useSearch } from "../hooks/useSearch";
+import { useFavorites } from "../hooks/useFavorites";
 
 interface MovieCardProps {
   movie: Movie;
@@ -11,9 +12,9 @@ const MovieCard: React.FC<MovieCardProps> = ({ movie }) => {
   const { id, title, release_date, poster_path } = movie;
   const { setSearchQuery } = useSearch();
 
-  function onLike() {
-    alert("liked");
-  }
+  const { favorites, toggleFavorite } = useFavorites();
+
+  const isFavorite = favorites.some((fav) => fav.id === movie.id);
 
   const handleDetailNavigation = () => {
     setSearchQuery(""); // Clear search query when navigating to details
@@ -49,10 +50,14 @@ const MovieCard: React.FC<MovieCardProps> = ({ movie }) => {
         </div>
       </Link>
       <button
-        className="absolute top-2 right-2 p-2 rounded-full  text-white xl:opacity-0 md:group-hover:opacity-100 transition-opacity  focus:outline-none focus:ring focus:ring-blue-300 cursor-pointer z-10"
-        onClick={onLike}
+        className={
+          "absolute top-2 right-2 p-2 rounded-full  text-white xl:opacity-0 md:group-hover:opacity-100 transition-opacity  focus:outline-none focus:ring focus:ring-blue-300 cursor-pointer z-10"
+        }
+        onClick={() => toggleFavorite(movie)}
       >
-        <Heart className="w-8 h-8 md:w-12 md:h-12" />
+        <Heart
+          className={`${isFavorite ? "fill-red-500" : ""} w-8 h-8 md:w-12 md:h-12`}
+        />
       </button>
     </div>
   );

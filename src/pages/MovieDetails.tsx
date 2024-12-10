@@ -1,6 +1,6 @@
 import React from "react";
 import { useParams } from "react-router-dom";
-import { useSearch } from "../contexts/useSearch";
+import { useSearch } from "../hooks/useSearch";
 import MovieGrid from "../components/MovieGrid";
 import { useQuery } from "@tanstack/react-query";
 import { fetchMovieDetails } from "../service/api";

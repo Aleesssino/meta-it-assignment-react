@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { useSearch } from "../contexts/useSearch";
+import { useSearch } from "../hooks/useSearch";
 import Movie from "../types/TMovie";
 import { fetchPopularMovies } from "../service/api";
 import MovieGrid from "../components/MovieGrid";

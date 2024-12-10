@@ -1,4 +1,4 @@
-import { useSearch } from "../contexts/useSearch";
+import { useSearch } from "../hooks/useSearch";
 import MovieCard from "../components/MovieCard";
 
 const MovieGrid: React.FC = () => {
