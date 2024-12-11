@@ -1,50 +1,67 @@
-# React + TypeScript + Vite
+# Meta Movies
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Project Overview
 
-Currently, two official plugins are available:
+Meta Movies is a React-based movie search application developed as part of an assignment for Meta IT. The application provides a comprehensive movie discovery experience with advanced search and interaction features.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Tech Stack
 
-## Expanding the ESLint configuration
+- Frontend: React + Vite
+- Language: TypeScript
+- Styling: Tailwind CSS
+- State Management: TanStack Query
+- API: TMDB (The Movie Database)
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+## Features
 
-- Configure the top-level `parserOptions` property like this:
+- Global search bar
+- Comprehensive movie search functionality
+- Infinite scroll pagination
+- Favorite movies management
+- Responsive design
+- Detailed movie information display
 
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
-```
+## Prerequisites
 
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
+- Node.js
+- pnpm
 
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
+## Local Setup
 
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
-```
+### 1. Clone the Repository
+
+    ```bash
+    git clone <your-repo-url>
+    cd meta-movies
+    ```
+
+### 2. Environment Configuration
+
+Create a `.env` file in the root directory and add your TMDB API key:
+
+    ```bash
+    VITE_API_KEY=your_tmdb_api_key_here
+    ```
+
+### 3. Install Dependencies
+
+    ```bash
+    pnpm install
+    ```
+
+### 4. Run Development Server
+
+    ```bash
+    pnpm dev
+    ```
+
+## Accessing the Application
+
+    Open your browser and navigate to `http://localhost:5173`
+
+## Potential Improvements
+
+- Implement unit and integration tests
+- Enhance error handling
+- Add more pages (trending, recommendations)
+- Implement user authentication
