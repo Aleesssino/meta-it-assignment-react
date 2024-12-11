@@ -1,6 +1,6 @@
 import logo from "../assets/meta_movie_logo.jpg";
 import { NavLink } from "react-router-dom";
-import MovieSearch from "./MovieSearch";
+import MovieSearchInput from "./MovieSearchInput";
 import { Menu, X } from "lucide-react";
 import { useState } from "react";
 import { useSearch } from "../hooks/useSearch";
@@ -32,7 +32,7 @@ const Header = () => {
           />
         </NavLink>
         <div className="md:pl-60 pl-7">
-          <MovieSearch />
+          <MovieSearchInput />
         </div>
         <nav>
           <ul className="gap-6 font-semibold text-xl hidden md:flex">

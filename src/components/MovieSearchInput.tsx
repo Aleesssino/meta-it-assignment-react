@@ -1,38 +1,32 @@
 import { Search } from "lucide-react";
 import { useSearch } from "../hooks/useSearch";
 import { useNavigate } from "react-router-dom";
-import Movie from "../types/TMovie";
-import { useQueryClient } from "@tanstack/react-query";
 import { useDebounce } from "../hooks/useDebounce";
 
-const MovieSearch: React.FC = () => {
-  const { searchQuery, setSearchQuery } = useSearch();
+const MovieSearchInput: React.FC = () => {
+  const { movies, searchQuery, setLastSearchQuery, setSearchQuery } =
+    useSearch();
   const navigate = useNavigate();
-  const queryClient = useQueryClient();
 
   // Debounce search with 500ms delay
-  const debouncedSearchQuery = useDebounce(searchQuery, 500);
+  const debouncedSearchQuery = useDebounce(searchQuery, 300);
 
+  const cachedMovies = movies;
   const handleSearchSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
-    if (!debouncedSearchQuery.trim()) {
+    if (debouncedSearchQuery.trim() === "") {
       alert("Please enter a searched movie...");
       return;
     }
 
-    const cachedMovies: Movie[] | undefined = queryClient.getQueryData([
-      "allMovies",
-    ]);
-
-    if (!cachedMovies) return;
-
-    const firstMovie = cachedMovies.find((movie) =>
-      movie.title.toLowerCase().includes(debouncedSearchQuery.toLowerCase()),
+    const firstMovie = cachedMovies.find((first) =>
+      first.title.toLowerCase().includes(debouncedSearchQuery.toLowerCase()),
     );
 
     if (firstMovie) {
       navigate(`/details/${firstMovie.id}`);
+      setLastSearchQuery(searchQuery);
       setSearchQuery("");
     }
   };
@@ -56,4 +50,4 @@ const MovieSearch: React.FC = () => {
   );
 };
 
-export default MovieSearch;
+export default MovieSearchInput;
