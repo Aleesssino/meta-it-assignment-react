@@ -15,13 +15,13 @@ function YourFavorites() {
   }
 
   return (
-    <div className=" justify-center py-5">
+    <div className="justify-center py-5">
       <h1 className="text-3xl text-center py-3 text-slate-50 font-semibold">
         Your Favorites
       </h1>
-      <div className="flex justify-center items-center p-5 mx-3 md:mx-14 rounded-2xl border-white border-[2px]">
+      <div className="flex justify-center items-center p-5 mx-3 md:mx-56 rounded-2xl border-white border-[2px]">
         {favorites.length > 0 ? (
-          <div className="flex flex-wrap gap-4 ">
+          <div className="flex flex-wrap gap-4 justify-center">
             {favorites.map((fav) => (
               <MovieCard movie={fav} key={fav.id} />
             ))}
