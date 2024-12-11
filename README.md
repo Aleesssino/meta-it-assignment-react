@@ -9,7 +9,7 @@ Meta Movies is a React-based movie search application developed as part of an as
 - Frontend: React + Vite
 - Language: TypeScript
 - Styling: Tailwind CSS
-- State Management: TanStack Query
+- Data handling: TanStack Query
 - API: TMDB (The Movie Database)
 
 ## Features
