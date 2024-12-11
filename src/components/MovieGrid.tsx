@@ -18,7 +18,11 @@ const MovieGrid: React.FC = () => {
           ))}
         </div>
       ) : (
-        <div className="grid grid-cols-2 md:flex justify-center gap-4">
+        <div
+          className={`grid ${
+            filteredMovies.length === 1 ? "grid-cols-1" : "grid-cols-2"
+          } justify-center gap-4`}
+        >
           {filteredMovies.map((movie) => (
             <MovieCard movie={movie} key={movie.id} />
           ))}
