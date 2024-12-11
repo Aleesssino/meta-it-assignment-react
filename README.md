@@ -31,8 +31,8 @@ Meta Movies is a React-based movie search application developed as part of an as
 ### 1. Clone the Repository
 
     ```bash
-    git clone <your-repo-url>
-    cd meta-movies
+    git clone git@github.com:Aleesssino/meta-it-assignment-react.git
+    cd meta-it-assignment-react
     ```
 
 ### 2. Environment Configuration
