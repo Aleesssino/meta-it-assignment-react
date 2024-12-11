@@ -5,6 +5,8 @@ import MovieGrid from "../components/MovieGrid";
 import { useQuery } from "@tanstack/react-query";
 import { fetchMovieDetails } from "../service/api";
 import Movie from "../types/TMovie";
+import Loading from "../components/Loading";
+import Error from "../components/Error";
 
 const MovieDetailsPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
@@ -22,18 +24,8 @@ const MovieDetailsPage: React.FC = () => {
     staleTime: 1000 * 60 * 5,
   });
 
-  if (isLoading)
-    return (
-      <p className="flex justify-center text-slate-50 text-center pt-14 text-xl">
-        Loading...
-      </p>
-    );
-  if (error)
-    return (
-      <p className="text-slate-50 justify-center text-center">
-        Error loading movies.
-      </p>
-    );
+  if (isLoading) return <Loading />;
+  if (error) return <Error />;
 
   const handleBackToSearch = () => {
     setSearchQuery(lastSearchQuery);

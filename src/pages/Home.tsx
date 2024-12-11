@@ -1,38 +1,57 @@
-import { useQuery } from "@tanstack/react-query";
+import { useInfiniteQuery } from "@tanstack/react-query";
 import { useSearch } from "../hooks/useSearch";
-import Movie from "../types/TMovie";
 import { fetchPopularMovies } from "../service/api";
 import MovieGrid from "../components/MovieGrid";
+import { useEffect } from "react";
+import { useInView } from "react-intersection-observer";
+import Loading from "../components/Loading";
+import Error from "../components/Error";
+import ScrollMessage from "../components/ScrollMessage";
 
 export default function Home() {
-  const { setMovies } = useSearch();
+  const { setMovies, searchQuery } = useSearch();
+
+  const { ref, inView } = useInView();
 
   const {
-    data: movies = [],
-    isLoading,
+    data,
     error,
-  } = useQuery<Movie[]>({
-    queryKey: ["allMovies"],
+    status,
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
+  } = useInfiniteQuery({
+    queryKey: ["popularMovies"],
     queryFn: fetchPopularMovies,
-    staleTime: 1000 * 60 * 5,
+    initialPageParam: 1,
+    getNextPageParam: (lastPage) => {
+      return lastPage.page < lastPage.total_pages
+        ? lastPage.page + 1
+        : undefined;
+    },
   });
 
-  if (movies.length > 0) {
-    setMovies(movies);
-  }
+  useEffect(() => {
+    if (inView) {
+      fetchNextPage();
+    }
+  }, [inView, fetchNextPage]);
 
-  if (isLoading)
-    return (
-      <p className="flex justify-center text-slate-50 text-center pt-14 text-xl">
-        Loading...
-      </p>
-    );
-  if (error)
-    return (
-      <p className="text-slate-50 justify-center text-center">
-        Error loading movies.
-      </p>
-    );
+  useEffect(() => {
+    if (data?.pages) {
+      // Flatten the movie pages into a single array
+      const movies = data.pages.flatMap((page) => page.results) ?? [];
+
+      const uniqueMovies = [
+        ...new Map(movies.map((movie) => [movie.id, movie])).values(),
+      ];
+
+      setMovies(uniqueMovies);
+    }
+  }, [data, setMovies]);
+
+  if (status === "pending") return <Loading />;
+  if (error) return <Error />;
 
   return (
     <div>
@@ -40,6 +59,13 @@ export default function Home() {
         Meta Movies
       </h1>
       <MovieGrid />
+      <div ref={ref} className="text-slate-50 justify-center text-center">
+        <ScrollMessage
+          searchQuery={searchQuery}
+          isFetchingNextPage={isFetchingNextPage}
+          hasNextPage={hasNextPage}
+        />
+      </div>
     </div>
   );
 }
