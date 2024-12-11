@@ -1,7 +1,7 @@
 import logo from "../assets/meta_movie_logo.jpg";
 import { NavLink } from "react-router-dom";
 import MovieSearch from "./MovieSearch";
-import { Dice6, Menu, X } from "lucide-react";
+import { Menu, X } from "lucide-react";
 import { useState } from "react";
 import { useSearch } from "../hooks/useSearch";
 
@@ -61,18 +61,6 @@ const Header = () => {
                 Favorites
               </NavLink>
             </li>
-            <li>
-              <NavLink
-                to="/popular"
-                className={({ isActive }) =>
-                  isActive
-                    ? "text-blue-500"
-                    : "text-slate-50 hover:text-red-500"
-                }
-              >
-                <Dice6 className="w-8 h-8 md:w-8 md:h-8" />
-              </NavLink>
-            </li>
           </ul>
         </nav>
         {isMenuOpen ? (
@@ -95,6 +83,20 @@ const Header = () => {
             <ul className="flex flex-col items-center text-4xl font-semibold text-slate-50 w-full ">
               <li>
                 <NavLink
+                  to="/"
+                  className={({ isActive }) =>
+                    isActive
+                      ? "text-blue-500"
+                      : "text-slate-50 hover:text-sky-300"
+                  }
+                  onClick={() => setIsMenuOpen(false)}
+                >
+                  Home
+                </NavLink>
+              </li>
+
+              <li>
+                <NavLink
                   to="/favorites"
                   className={({ isActive }) =>
                     isActive
@@ -104,32 +106,6 @@ const Header = () => {
                   onClick={() => setIsMenuOpen(false)}
                 >
                   Favorites
-                </NavLink>
-              </li>
-              <li>
-                <NavLink
-                  to="/popular"
-                  className={({ isActive }) =>
-                    isActive
-                      ? "text-blue-500"
-                      : "text-slate-50 hover:text-sky-300"
-                  }
-                  onClick={() => setIsMenuOpen(false)}
-                >
-                  Popular
-                </NavLink>
-              </li>
-              <li>
-                <NavLink
-                  to="/popular"
-                  className={({ isActive }) =>
-                    isActive
-                      ? "text-blue-500"
-                      : "text-slate-50 hover:text-sky-300"
-                  }
-                  onClick={() => setIsMenuOpen(false)}
-                >
-                  <Dice6 className="w-8 h-8" />
                 </NavLink>
               </li>
             </ul>
