@@ -30,30 +30,30 @@ Meta Movies is a React-based movie search application developed as part of an as
 
 ### 1. Clone the Repository
 
-    ```
+    
     git clone git@github.com:Aleesssino/meta-it-assignment-react.git
     cd meta-it-assignment-react
-    ```
+    
 
 ### 2. Environment Configuration
 
 Create a `.env` file in the root directory and add your TMDB API key:
 
-    ```
+    
     VITE_API_KEY=your_tmdb_api_key_here
-    ```
+    
 
 ### 3. Install Dependencies
 
-    ```
+    
     pnpm install
-    ```
+    
 
 ### 4. Run Development Server
 
-    ```
+    
     pnpm dev
-    ```
+   
 
 ## Accessing the Application
 
